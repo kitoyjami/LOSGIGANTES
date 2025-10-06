@@ -10,6 +10,8 @@ const demoProducts = [
     category: 'Electricidad',
     price: 159.99,
     unit: 'unidad',
+    image:
+      'https://images.unsplash.com/photo-1527358040820-09d9d5c4725f?auto=format&fit=crop&w=640&q=80',
   },
   {
     id: 2,
@@ -19,6 +21,8 @@ const demoProducts = [
     category: 'Accesorios',
     price: 42.5,
     unit: 'juego',
+    image:
+      'https://images.unsplash.com/photo-1515573990-aee0a0ee3c8d?auto=format&fit=crop&w=640&q=80',
   },
   {
     id: 3,
@@ -27,6 +31,8 @@ const demoProducts = [
     category: 'Manuales',
     price: 18.75,
     unit: 'unidad',
+    image:
+      'https://images.unsplash.com/photo-1517348025100-4d1d6308b0a3?auto=format&fit=crop&w=640&q=80',
   },
   {
     id: 4,
@@ -35,6 +41,8 @@ const demoProducts = [
     category: 'Plomería',
     price: 36.95,
     unit: 'unidad',
+    image:
+      'https://images.unsplash.com/photo-1616628182500-94e3326d6c7c?auto=format&fit=crop&w=640&q=80',
   },
   {
     id: 5,
@@ -44,6 +52,8 @@ const demoProducts = [
     category: 'Equipos',
     price: 229.0,
     unit: 'unidad',
+    image:
+      'https://images.unsplash.com/photo-1569428034239-5c76dc1123cf?auto=format&fit=crop&w=640&q=80',
   },
   {
     id: 6,
@@ -52,6 +62,8 @@ const demoProducts = [
     category: 'Accesorios',
     price: 6.8,
     unit: 'unidad',
+    image:
+      'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=640&q=80',
   },
   {
     id: 7,
@@ -60,6 +72,8 @@ const demoProducts = [
     category: 'Seguridad',
     price: 5.6,
     unit: 'par',
+    image:
+      'https://images.unsplash.com/photo-1619972828020-2c1e1d4b53ef?auto=format&fit=crop&w=640&q=80',
   },
   {
     id: 8,
@@ -69,6 +83,52 @@ const demoProducts = [
     category: 'Plomería',
     price: 64.9,
     unit: 'kit',
+    image:
+      'https://images.unsplash.com/photo-1582719478250-04fd7c3d0a3d?auto=format&fit=crop&w=640&q=80',
+  },
+]
+
+const solutionShowcase = [
+  {
+    title: 'Ferretería industrial',
+    description:
+      'Suministro de herramientas eléctricas y neumáticas para obras de gran escala, con trazabilidad de lote y soporte técnico.',
+    image:
+      'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=720&q=80',
+    metric: 'Catálogo +850 SKUs',
+  },
+  {
+    title: 'Infraestructura hidráulica',
+    description:
+      'Tubos, válvulas y accesorios certificados para plantas de tratamiento y proyectos de saneamiento.',
+    image:
+      'https://images.unsplash.com/photo-1521207418485-99c705420785?auto=format&fit=crop&w=720&q=80',
+    metric: 'Cobertura 12 ciudades',
+  },
+  {
+    title: 'Seguridad y EPP',
+    description:
+      'Inventario permanente de equipos de protección personal para minería, petróleo y construcción.',
+    image:
+      'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=720&q=80',
+    metric: 'Despachos en 48h',
+  },
+]
+
+const projectHighlights = [
+  {
+    title: 'Modernización de planta cementera',
+    description:
+      'Abastecimos líneas de potencia, anclajes y sistemas de seguridad con entregas programadas en obra.',
+    image:
+      'https://images.unsplash.com/photo-1582719478250-9ff3fe5cf29c?auto=format&fit=crop&w=960&q=80',
+  },
+  {
+    title: 'Red de gas natural Lima Norte',
+    description:
+      'Coordinamos el suministro de herramientas de corte, válvulas y tuberías para más de 30 cuadrillas simultáneas.',
+    image:
+      'https://images.unsplash.com/photo-1582719478250-c4b7b1b2b00b?auto=format&fit=crop&w=960&q=80',
   },
 ]
 
@@ -167,8 +227,18 @@ function App() {
           </div>
         </div>
         <div className="header-main">
-          <div className="brand" onClick={() => setActiveView('home')} role="button">
-            <span className="brand-mark">Los Gigantes</span>
+          <div
+            className="brand"
+            onClick={() => setActiveView('home')}
+            onKeyDown={(event) => event.key === 'Enter' && setActiveView('home')}
+            role="button"
+            tabIndex={0}
+          >
+            <img
+              src="https://losgigantes.sistinfo.com/empresa/imagenes/brand_logo.png"
+              alt="Los Gigantes Compañía Ferretera"
+              className="brand-logo"
+            />
             <span className="brand-subtitle">Compañía Ferretera</span>
           </div>
           <nav className="main-nav">
@@ -288,7 +358,7 @@ function Home({ setActiveView }) {
           </dl>
         </div>
         <div className="hero-showcase">
-          <div className="hero-image" aria-hidden="true" />
+          <div className="hero-image" aria-hidden="true" role="presentation" />
           <div className="hero-card">
             <h3>Logística de confianza</h3>
             <p>
@@ -328,6 +398,28 @@ function Home({ setActiveView }) {
         </div>
       </section>
 
+      <section className="showcase-grid">
+        <header>
+          <h2>Especialidades que potenciamos</h2>
+          <p>
+            Presenta tu portafolio estratégico con imágenes de proyectos reales y datos
+            relevantes para cada vertical.
+          </p>
+        </header>
+        <div className="showcase-cards">
+          {solutionShowcase.map((item) => (
+            <article key={item.title}>
+              <img src={item.image} alt={item.title} loading="lazy" />
+              <div>
+                <span className="showcase-metric">{item.metric}</span>
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section className="featured-categories">
         <div className="featured-copy">
           <h2>Rubros destacados</h2>
@@ -347,6 +439,27 @@ function Home({ setActiveView }) {
                 Ver productos
               </button>
             </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="project-gallery">
+        <header>
+          <h2>Casos recientes</h2>
+          <p>
+            Demuestra el alcance de tu operación con ejemplos reales de sectores que confían en
+            Los Gigantes.
+          </p>
+        </header>
+        <div className="project-grid">
+          {projectHighlights.map((project) => (
+            <article key={project.title}>
+              <img src={project.image} alt={project.title} loading="lazy" />
+              <div>
+                <h3>{project.title}</h3>
+                <p>{project.description}</p>
+              </div>
+            </article>
           ))}
         </div>
       </section>
@@ -434,6 +547,9 @@ function Catalog({
         <div className="product-grid">
           {products.map((product) => (
             <article className="product-card" key={product.id}>
+              <figure className="product-media">
+                <img src={product.image} alt={product.name} loading="lazy" />
+              </figure>
               <div className="product-badge">{product.category}</div>
               <h3>{product.name}</h3>
               <p>{product.description}</p>
@@ -586,7 +702,10 @@ function Footer({ setActiveView }) {
       <div className="footer-main">
         <div className="footer-column">
           <div className="footer-brand">
-            <span className="brand-mark">Los Gigantes</span>
+            <img
+              src="https://losgigantes.sistinfo.com/empresa/imagenes/brand_logo.png"
+              alt="Los Gigantes Compañía Ferretera"
+            />
             <span className="brand-subtitle">Compañía Ferretera</span>
           </div>
           <p>
