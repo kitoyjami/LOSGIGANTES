@@ -589,10 +589,9 @@ function App() {
           >
             <img
               src="https://losgigantes.sistinfo.com/empresa/imagenes/brand_logo.png"
-              alt="Los Gigantes Compañía Ferretera"
+              alt="Logo de Los Gigantes"
               className="brand-logo"
             />
-            <span className="brand-subtitle">Compañía Ferretera</span>
           </div>
           <nav className="main-nav">
             {Object.entries(views).map(([key, label]) => (
@@ -1273,9 +1272,9 @@ function Footer({ setActiveView }) {
           <div className="footer-brand">
             <img
               src="https://losgigantes.sistinfo.com/empresa/imagenes/brand_logo.png"
-              alt="Los Gigantes Compañía Ferretera"
+              alt="Logo de Los Gigantes"
             />
-            <span className="brand-subtitle">Compañía Ferretera</span>
+            <span className="footer-tagline">Soluciones ferreteras profesionales</span>
           </div>
           <p>
             Soluciones integrales para construcción, minería e industria. Acompañamos tus
