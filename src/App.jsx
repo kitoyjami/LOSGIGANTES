@@ -154,25 +154,56 @@ function App() {
     )
   }, [cartItems, orderTotal])
 
+  const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0)
+
   return (
     <div className="app-shell">
       <header className="main-header">
-        <div className="brand" onClick={() => setActiveView('home')} role="button">
-          <span className="brand-mark">Los Gigantes</span>
-          <span className="brand-subtitle">Ferretería industrial & hogar</span>
+        <div className="header-top">
+          <span>Distribuidores oficiales con cobertura nacional</span>
+          <div className="top-links">
+            <a href="tel:+5115558899">Central: (01) 555-8899</a>
+            <a href="mailto:ventas@losgigantes.pe">ventas@losgigantes.pe</a>
+          </div>
         </div>
-        <nav className="main-nav">
-          {Object.entries(views).map(([key, label]) => (
+        <div className="header-main">
+          <div className="brand" onClick={() => setActiveView('home')} role="button">
+            <span className="brand-mark">Los Gigantes</span>
+            <span className="brand-subtitle">Compañía Ferretera</span>
+          </div>
+          <nav className="main-nav">
+            {Object.entries(views).map(([key, label]) => (
+              <button
+                key={key}
+                type="button"
+                className={key === activeView ? 'active' : ''}
+                onClick={() => setActiveView(key)}
+              >
+                {label}
+                {key === 'cart' && cartCount > 0 && (
+                  <span className="nav-count">{cartCount}</span>
+                )}
+              </button>
+            ))}
+          </nav>
+          <div className="header-actions">
             <button
-              key={key}
               type="button"
-              className={key === activeView ? 'active' : ''}
-              onClick={() => setActiveView(key)}
+              className="header-cta"
+              onClick={() => setActiveView('contact')}
             >
-              {label}
+              Contacta a un asesor
             </button>
-          ))}
-        </nav>
+            <button
+              type="button"
+              className={`cart-trigger${activeView === 'cart' ? ' active' : ''}`}
+              onClick={() => setActiveView('cart')}
+            >
+              Mi cotización
+              {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
+            </button>
+          </div>
+        </div>
       </header>
 
       <main className="content-area">
@@ -200,6 +231,8 @@ function App() {
         {activeView === 'contact' && <Contact />}
       </main>
 
+      <Footer setActiveView={setActiveView} />
+
       <a
         className="whatsapp-fab"
         href={
@@ -220,43 +253,89 @@ function Home({ setActiveView }) {
   return (
     <section className="home-view">
       <article className="hero">
-        <div>
-          <p className="eyebrow">Ferretería Mayorista y Minorista</p>
-          <h1>Todo para construir, mantener y mejorar tus proyectos</h1>
+        <div className="hero-copy">
+          <p className="eyebrow">Ferretería mayorista y proyectos</p>
+          <h1>Soluciones profesionales para la industria, la minería y el hogar</h1>
           <p>
-            Presenta tu catálogo completo con un flujo ágil: búsqueda lateral, filtros
-            dinámicos y cotización directa por WhatsApp.
+            Integrá un catálogo con filtros inteligentes, precios referenciales y un flujo de
+            cotización que llega directo a WhatsApp para acelerar tus ventas.
           </p>
           <div className="hero-actions">
             <button type="button" onClick={() => setActiveView('catalog')}>
-              Ver catálogo
+              Explorar catálogo
             </button>
             <button
               type="button"
               className="secondary"
               onClick={() => setActiveView('contact')}
             >
-              Habla con un asesor
+              Agendar asesoría
+            </button>
+          </div>
+          <dl className="hero-metrics">
+            <div>
+              <dt>+1,200</dt>
+              <dd>SKUs en stock inmediato</dd>
+            </div>
+            <div>
+              <dt>48h</dt>
+              <dd>Promedio de despacho en Lima</dd>
+            </div>
+            <div>
+              <dt>24/7</dt>
+              <dd>Atención para proyectos críticos</dd>
+            </div>
+          </dl>
+        </div>
+        <div className="hero-showcase">
+          <div className="hero-image" aria-hidden="true" />
+          <div className="hero-card">
+            <h3>Logística de confianza</h3>
+            <p>
+              Coordinamos entregas programadas y soporte técnico con cobertura nacional.
+            </p>
+            <button type="button" onClick={() => setActiveView('catalog')}>
+              Ver líneas de producto
             </button>
           </div>
         </div>
-        <ul className="hero-highlights">
-          <li>
-            <h3>+1,200 productos</h3>
-            <p>Clasificados por rubro, con fichas técnicas y stock actualizado.</p>
-          </li>
-          <li>
-            <h3>Catálogo inteligente</h3>
-            <p>Filtra por categoría, aplicación o marca en segundos.</p>
-          </li>
-          <li>
-            <h3>Cotiza al instante</h3>
-            <p>Selecciona los productos y envía el detalle por WhatsApp en un clic.</p>
-          </li>
-        </ul>
       </article>
+
+      <section className="commitment">
+        <h2>Nuestro compromiso</h2>
+        <div className="commitment-grid">
+          <article>
+            <span role="img" aria-hidden="true">
+              🛠️
+            </span>
+            <h3>Herramientas certificadas</h3>
+            <p>Trabajamos con marcas líderes y garantías directas del fabricante.</p>
+          </article>
+          <article>
+            <span role="img" aria-hidden="true">
+              🚚
+            </span>
+            <h3>Delivery especializado</h3>
+            <p>Unidades equipadas para entregas voluminosas y seguimiento en tiempo real.</p>
+          </article>
+          <article>
+            <span role="img" aria-hidden="true">
+              🤝
+            </span>
+            <h3>Atención personalizada</h3>
+            <p>Ejecutivos comerciales dedicados a cada sector y necesidad.</p>
+          </article>
+        </div>
+      </section>
+
       <section className="featured-categories">
-        <h2>Rubros destacados</h2>
+        <div className="featured-copy">
+          <h2>Rubros destacados</h2>
+          <p>
+            Organiza tu inventario por especialidad y permite que tus clientes encuentren todo
+            en segundos.
+          </p>
+        </div>
         <div className="category-grid">
           {['Electricidad', 'Plomería', 'Seguridad', 'Equipos'].map((category) => (
             <div className="category-card" key={category}>
@@ -270,6 +349,28 @@ function Home({ setActiveView }) {
             </div>
           ))}
         </div>
+      </section>
+
+      <section className="brands-strip" aria-label="Marcas aliadas">
+        <p>Distribuidores autorizados de:</p>
+        <ul>
+          {['Truper', 'Stanley', 'Bosch', 'DeWalt', 'Sika', '3M'].map((brand) => (
+            <li key={brand}>{brand}</li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="cta-banner">
+        <div>
+          <h2>¿Listo para cotizar tu próximo proyecto?</h2>
+          <p>
+            Integra tu catálogo, define tus precios referenciales y recibe las solicitudes por
+            WhatsApp sin fricciones.
+          </p>
+        </div>
+        <button type="button" onClick={() => setActiveView('cart')}>
+          Revisar mi cotización
+        </button>
       </section>
     </section>
   )
@@ -476,6 +577,72 @@ function Contact() {
         </aside>
       </div>
     </section>
+  )
+}
+
+function Footer({ setActiveView }) {
+  return (
+    <footer className="site-footer">
+      <div className="footer-main">
+        <div className="footer-column">
+          <div className="footer-brand">
+            <span className="brand-mark">Los Gigantes</span>
+            <span className="brand-subtitle">Compañía Ferretera</span>
+          </div>
+          <p>
+            Soluciones integrales para construcción, minería e industria. Acompañamos tus
+            proyectos con asesoría técnica y logística confiable.
+          </p>
+        </div>
+        <div className="footer-column">
+          <h3>Enlaces</h3>
+          <ul>
+            {Object.entries(views).map(([key, label]) => (
+              <li key={key}>
+                <button type="button" onClick={() => setActiveView(key)}>
+                  {label}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="footer-column">
+          <h3>Contacto</h3>
+          <ul>
+            <li>Av. Principal 123, Lima</li>
+            <li>
+              <a href="tel:+5115558899">(01) 555-8899</a>
+            </li>
+            <li>
+              <a href="mailto:ventas@losgigantes.pe">ventas@losgigantes.pe</a>
+            </li>
+            <li>Lunes a sábado de 8:00 a 18:00</li>
+          </ul>
+        </div>
+        <div className="footer-column">
+          <h3>Newsletter</h3>
+          <p>Recibe novedades, lanzamientos y promociones especiales.</p>
+          <form className="footer-form">
+            <input type="email" placeholder="tu correo" aria-label="Correo electrónico" />
+            <button type="submit">Suscribirme</button>
+          </form>
+        </div>
+      </div>
+      <div className="footer-bottom">
+        <p>© {new Date().getFullYear()} Los Gigantes Compañía Ferretera. Todos los derechos reservados.</p>
+        <div className="footer-socials">
+          <a href="https://www.facebook.com" target="_blank" rel="noreferrer">
+            Facebook
+          </a>
+          <a href="https://www.instagram.com" target="_blank" rel="noreferrer">
+            Instagram
+          </a>
+          <a href="https://www.linkedin.com" target="_blank" rel="noreferrer">
+            LinkedIn
+          </a>
+        </div>
+      </div>
+    </footer>
   )
 }
 
