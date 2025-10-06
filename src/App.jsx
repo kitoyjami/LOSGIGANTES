@@ -497,6 +497,7 @@ function App() {
   const [selectedCategory, setSelectedCategory] = useState('Todas')
   const [cartItems, setCartItems] = useState([])
   const [selectedProduct, setSelectedProduct] = useState(null)
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false)
 
   const categories = useMemo(
     () => ['Todas', ...new Set(demoProducts.map((product) => product.category))],
@@ -518,6 +519,11 @@ function App() {
     })
   }, [searchTerm, selectedCategory])
 
+  const handleViewChange = (view) => {
+    setActiveView(view)
+    setIsMobileNavOpen(false)
+  }
+
   const addToCart = (product) => {
     setCartItems((prev) => {
       const existing = prev.find((item) => item.product.id === product.id)
@@ -532,7 +538,7 @@ function App() {
 
       return [...prev, { product, quantity: 1 }]
     })
-    setActiveView('cart')
+    handleViewChange('cart')
   }
 
   const updateQuantity = (productId, quantity) => {
@@ -579,11 +585,13 @@ function App() {
             <a href="mailto:ventas@losgigantes.pe">ventas@losgigantes.pe</a>
           </div>
         </div>
-        <div className="header-main">
+        <div className={`header-main${isMobileNavOpen ? ' nav-open' : ''}`}>
           <div
             className="brand"
-            onClick={() => setActiveView('home')}
-            onKeyDown={(event) => event.key === 'Enter' && setActiveView('home')}
+            onClick={() => handleViewChange('home')}
+            onKeyDown={(event) =>
+              event.key === 'Enter' && handleViewChange('home')
+            }
             role="button"
             tabIndex={0}
           >
@@ -593,43 +601,71 @@ function App() {
               className="brand-logo"
             />
           </div>
-          <nav className="main-nav">
-            {Object.entries(views).map(([key, label]) => (
+          <button
+            type="button"
+            className={`mobile-menu-toggle${isMobileNavOpen ? ' open' : ''}`}
+            aria-label={
+              isMobileNavOpen
+                ? 'Cerrar menú de navegación'
+                : 'Abrir menú de navegación'
+            }
+            aria-controls="primary-navigation"
+            aria-expanded={isMobileNavOpen}
+            onClick={() => setIsMobileNavOpen((prev) => !prev)}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
+          <div className="header-navigation" id="primary-navigation">
+            <nav className="main-nav">
+              {Object.entries(views).map(([key, label]) => (
+                <button
+                  key={key}
+                  type="button"
+                  className={key === activeView ? 'active' : ''}
+                  onClick={() => handleViewChange(key)}
+                >
+                  {label}
+                  {key === 'cart' && cartCount > 0 && (
+                    <span className="nav-count">{cartCount}</span>
+                  )}
+                </button>
+              ))}
+            </nav>
+            <div className="header-actions">
               <button
-                key={key}
                 type="button"
-                className={key === activeView ? 'active' : ''}
-                onClick={() => setActiveView(key)}
+                className="header-cta"
+                onClick={() => handleViewChange('contact')}
               >
-                {label}
-                {key === 'cart' && cartCount > 0 && (
-                  <span className="nav-count">{cartCount}</span>
-                )}
+                Contacta a un asesor
               </button>
-            ))}
-          </nav>
-          <div className="header-actions">
-            <button
-              type="button"
-              className="header-cta"
-              onClick={() => setActiveView('contact')}
-            >
-              Contacta a un asesor
-            </button>
-            <button
-              type="button"
-              className={`cart-trigger${activeView === 'cart' ? ' active' : ''}`}
-              onClick={() => setActiveView('cart')}
-            >
-              Mi cotización
-              {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
-            </button>
+              <button
+                type="button"
+                className={`cart-trigger${
+                  activeView === 'cart' ? ' active' : ''
+                }`}
+                onClick={() => handleViewChange('cart')}
+              >
+                Mi cotización
+                {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
+              </button>
+            </div>
           </div>
         </div>
+        <button
+          type="button"
+          className={`mobile-nav-backdrop${
+            isMobileNavOpen ? ' visible' : ''
+          }`}
+          aria-label="Cerrar menú de navegación"
+          onClick={() => setIsMobileNavOpen(false)}
+        />
       </header>
 
       <main className="content-area">
-        {activeView === 'home' && <Home setActiveView={setActiveView} />}
+        {activeView === 'home' && <Home setActiveView={handleViewChange} />}
         {activeView === 'catalog' && (
           <Catalog
             products={filteredProducts}
@@ -665,7 +701,7 @@ function App() {
         />
       )}
 
-      <Footer setActiveView={setActiveView} />
+      <Footer setActiveView={handleViewChange} />
 
       <a
         className="whatsapp-fab"
